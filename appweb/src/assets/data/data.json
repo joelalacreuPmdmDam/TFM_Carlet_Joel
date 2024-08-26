@@ -1,0 +1,164 @@
+{
+    "clientes" : [
+        {
+            "id": 1,
+            "dni": "12345678A",
+            "nombre": "Juan",
+            "apellidos": "Pérez Gómez",
+            "mail": "juan.perez@gmail.com",
+            "nombreUsuario": "juanperez"
+        },
+        {
+            "id": 2,
+            "dni": "23456789B",
+            "nombre": "María",
+            "apellidos": "López Martínez",
+            "mail": "maria.lopez@gmail.com",
+            "nombreUsuario": "marialopez"
+        },
+        {
+            "id": 3,
+            "dni": "34567890C",
+            "nombre": "Carlos",
+            "apellidos": "Sánchez Fernández",
+            "mail": "carlos.sanchez@gmail.com",
+            "nombreUsuario": "carlossanchez"
+        },
+        {
+            "id": 4,
+            "dni": "45678901D",
+            "nombre": "Ana",
+            "apellidos": "García Rodríguez",
+            "mail": "ana.garcia@gmail.com",
+            "nombreUsuario": "anagarcia"
+        },
+        {
+            "id": 5,
+            "dni": "56789012E",
+            "nombre": "José",
+            "apellidos": "Martín Gómez",
+            "mail": "jose.martin@gmail.com",
+            "nombreUsuario": "josemartin"
+        },
+        {
+            "id": 6,
+            "dni": "67890123F",
+            "nombre": "Laura",
+            "apellidos": "Hernández Díaz",
+            "mail": "laura.hernandez@gmail.com",
+            "nombreUsuario": "laurahernandez"
+        },
+        {
+            "id": 7,
+            "dni": "78901234G",
+            "nombre": "David",
+            "apellidos": "Ruiz García",
+            "mail": "david.ruiz@gmail.com",
+            "nombreUsuario": "davidruiz"
+        },
+        {
+            "id": 8,
+            "dni": "89012345H",
+            "nombre": "Lucía",
+            "apellidos": "Jiménez Pérez",
+            "mail": "lucia.jimenez@gmail.com",
+            "nombreUsuario": "luciajimenez"
+        },
+        {
+            "id": 9,
+            "dni": "90123456I",
+            "nombre": "Javier",
+            "apellidos": "Gómez Martín",
+            "mail": "javier.gomez@gmail.com",
+            "nombreUsuario": "javiergomez"
+        },
+        {
+            "id": 10,
+            "dni": "01234567J",
+            "nombre": "Sara",
+            "apellidos": "Navarro López",
+            "mail": "sara.navarro@gmail.com",
+            "nombreUsuario": "saranavarro"
+        },
+        {
+            "id": 11,
+            "dni": "11112222K",
+            "nombre": "Miguel",
+            "apellidos": "Ortiz Sánchez",
+            "mail": "miguel.ortiz@gmail.com",
+            "nombreUsuario": "miguelortiz"
+        },
+        {
+            "id": 12,
+            "dni": "22223333L",
+            "nombre": "Sofía",
+            "apellidos": "Romero Díaz",
+            "mail": "sofia.romero@gmail.com",
+            "nombreUsuario": "sofiaromero"
+        },
+        {
+            "id": 13,
+            "dni": "33334444M",
+            "nombre": "Manuel",
+            "apellidos": "Rubio García",
+            "mail": "manuel.rubio@gmail.com",
+            "nombreUsuario": "manuelrubio"
+        },
+        {
+            "id": 14,
+            "dni": "44445555N",
+            "nombre": "Paula",
+            "apellidos": "Serra López",
+            "mail": "paula.serra@gmail.com",
+            "nombreUsuario": "paulaserr"
+        },
+        {
+            "id": 15,
+            "dni": "55556666O",
+            "nombre": "Fernando",
+            "apellidos": "Molina Rodríguez",
+            "mail": "fernando.molina@gmail.com",
+            "nombreUsuario": "fernandomolina"
+        },
+        {
+            "id": 16,
+            "dni": "66667777P",
+            "nombre": "Elena",
+            "apellidos": "Vega Fernández",
+            "mail": "elena.vega@gmail.com",
+            "nombreUsuario": "elenavega"
+        },
+        {
+            "id": 17,
+            "dni": "77778888Q",
+            "nombre": "Antonio",
+            "apellidos": "Cruz Gómez",
+            "mail": "antonio.cruz@gmail.com",
+            "nombreUsuario": "antoniocruz"
+        },
+        {
+            "id": 18,
+            "dni": "88889999R",
+            "nombre": "Patricia",
+            "apellidos": "Santos López",
+            "mail": "patricia.santos@gmail.com",
+            "nombreUsuario": "patriciasantos"
+        },
+        {
+            "id": 19,
+            "dni": "99990000S",
+            "nombre": "Raúl",
+            "apellidos": "Torres Pérez",
+            "mail": "raul.torres@gmail.com",
+            "nombreUsuario": "raultorres"
+        },
+        {
+            "id": 20,
+            "dni": "00001111T",
+            "nombre": "Natalia",
+            "apellidos": "Sanz García",
+            "mail": "natalia.sanz@gmail.com",
+            "nombreUsuario": "nataliasanz"
+        }
+    ]
+}

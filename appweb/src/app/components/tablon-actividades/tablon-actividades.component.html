@@ -1,0 +1,151 @@
+<div class="loading-container" *ngIf="loadingInfo">
+    <div class="loading">
+        <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+    </div>
+</div>
+<div *ngIf="!loadingInfo" class="container">
+    <div class="second_nav">
+        <p-toolbar [style]="{'background-color': '#f5f5f5', 'margin-bottom': '5px'}">
+            <p style="font-weight: bold;font-size: 14px; margin: 0px;">TABLON DE ACTIVIDADES</p>
+            <ng-template pTemplate="end">
+                <p-button label="Añadir actividad dirigida" (click)="openCrearTablonActDialog()"></p-button> <!--*ngIf="listaPermisos.insertar"-->
+            </ng-template>
+        </p-toolbar>
+    </div>
+    <p-table 
+    #dt1
+    [value]="listaTablonActs" 
+    dataKey="id" 
+    editMode="row" 
+    [tableStyle]="{'min-width': '50rem'}"
+    [showCurrentPageReport]="true"
+    [rows]="25"
+    [paginator]="true"
+    [rowsPerPageOptions]="[25, 50, 75, 100]"
+    [loading]="false"
+    [scrollable]="true"
+    scrollHeight="600px"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['id','actividad','instructor','inscripciones','fecha']"
+    >
+    
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pTooltip="Limpiar y recargar" tooltipPosition="bottom" pButton class="p-button-outlined" icon="pi pi-sync" (click)="clear(dt1)"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input #inputSearch [(ngModel)]="valorFiltroGlobal" pInputText type="text" (input)="onInput($event)" placeholder="Search keyword" />
+                </span>                
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 10%"></th>
+                <th style="width: 18%" pSortableColumn="id">
+                    ID
+                    <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th style="width: 18%" pSortableColumn="actividad">
+                    ACTIVIDAD
+                    <p-sortIcon field="actividad"></p-sortIcon>
+                </th>
+                <th style="width: 18%" pSortableColumn="fecha">
+                    FECHA
+                    <p-sortIcon field="fecha"></p-sortIcon>
+                </th>
+                <th style="width: 18%" pSortableColumn="inscripciones">
+                    INSCRIPCIONES
+                    <p-sortIcon field="inscripciones"></p-sortIcon>
+                </th>    
+                <th style="width: 18%" pSortableColumn="instructor">
+                    INSTRUCTOR/A
+                    <p-sortIcon field="instructor"></p-sortIcon>
+                </th>            
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-actTablon>
+            <tr [ngClass]="{
+                'fila-roja': actTablon.instructor === 'Por definir ' && actTablon.idActividad !== 1 && actTablon.completa,
+                'fila-naranja': actTablon.instructor === 'Por definir ' && actTablon.idActividad !== 1 && !actTablon.completa,
+                'fila-verde': actTablon.completa &&  actTablon.instructor !== 'Por definir '             
+              }">
+                <td>
+                    
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEditDialog(actTablon)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning  mr-2" (click)="deleteTablonActDialog(actTablon)" ></button>
+                    <button pButton pRipple icon="pi pi-user-plus" class="p-button-rounded p-button-info" (click)="openReservarTablonActDialog(actTablon)" *ngIf="!actTablon.completa"></button>
+                </td>
+                <td>
+                    {{ actTablon.id }}
+                </td>
+                <td>
+                    {{ actTablon.actividad }}
+                </td>
+                <td>
+                    {{ actTablon.fecha | date: 'dd/MM/yyyy HH:mm:ss' }}
+                </td>
+                <td>
+                    {{ actTablon.inscripciones }}
+                </td>
+                <td>
+                    {{ actTablon.instructor }}
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No hay actividades para mostrar.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog header="Nuevo actividad dirigida" [(visible)]="showCrearTablonActDialog" [modal]="true" [style]="{ width: '28.5vw', height: '13.25vw' }" [draggable]="true" [resizable]="false">
+    <form [formGroup]="formGroup" (ngSubmit)="crearTablonAct()">
+        <div class="grid p-fluid formConainer" style="margin-top: 1.5rem; display: flex;">
+            <p-floatLabel>
+                <p-dropdown [options]="listaActividades" formControlName="fbSelectedActividad" optionLabel="actividad" inputId="float-label" [style]="{'width':'250px','margin-right':'1rem'}" appendTo="body"/>
+                <label for="float-label">Seleccione una actividad</label>
+            </p-floatLabel>
+            <p-calendar inputId="calendar-24h" formControlName="fbFecha" [showTime]="true" [hourFormat]="'24'" [defaultDate]="today" [readonlyInput]="true"  [minDate]="today"
+                placeholder="Fecha y Hora" appendTo="body" [style]="{'width':'250px'}">
+            </p-calendar>
+            <div class="formBtn">
+                <div class="field col">
+                    <label for="name"></label>
+                    <button type="reset" pButton pRipple label="Limpiar" icon="pi pi-delete-left" class="p-button-secondary"></button>
+                </div>
+                <div class="field col">
+                    <label for="name"></label>
+                    <button type="submit" pButton pRipple label="Añadir" icon="pi pi-plus" class="p-button-success" [disabled]="formGroup.invalid"></button>
+                </div>
+            </div>            
+        </div>
+    </form>
+</p-dialog>
+
+<p-dialog [header]="reservarDialogHeader" [(visible)]="showReservarDialog" [modal]="true" [style]="{ width: '25vw', height: '11.2vw' }" [draggable]="true" [resizable]="false">
+    <div class="grid p-fluid formConainer" style="margin-top: 1.5rem; display: flex;">
+        <p-floatLabel>
+            <p-dropdown [options]="listaClientes" [(ngModel)]="selectedClienteReserva" optionLabel="infoCliente" inputId="float-label" [style]="{'width':'450px'}" appendTo="body"/>
+            <label for="username">Cliente</label>
+        </p-floatLabel>    
+        <button type="submit" pButton pRipple label="Reservar" icon="pi pi-plus" class="p-button-success formBtn" (click)="reservarTablonAct()" style="margin-top: 2rem;"></button>          
+    </div>
+</p-dialog>
+
+
+<p-dialog header="Asignar instructor" [(visible)]="showEditarTablonActDialog" [modal]="true" [style]="{ width: '25vw', height: '11.2vw' }" [draggable]="true" [resizable]="false">
+        <div class="grid p-fluid formConainer" style="margin-top: 1.5rem; display: flex;">
+        <p-floatLabel>
+            <p-dropdown [options]="listaInstructoresDisponibles" [(ngModel)]="selectedInstructor" optionLabel="nombre" inputId="float-label" [style]="{'width':'450px'}" appendTo="body"/>
+            <label for="username">Instructor</label>
+        </p-floatLabel>    
+        <button type="submit" pButton pRipple label="Asignar" icon="pi pi-plus" class="p-button-success formBtn" (click)="asignarInstructor()" style="margin-top: 2rem;"></button>          
+    </div>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: 'auto' }"></p-confirmDialog>
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}" [style]="{'margin-top':'11rem'}" position="top-center"></p-toast>

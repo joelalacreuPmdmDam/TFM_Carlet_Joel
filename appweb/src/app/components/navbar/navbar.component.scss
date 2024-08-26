@@ -1,0 +1,35 @@
+p{
+    margin: 0px;
+    font-weight: bold;
+    font-size: 24px;
+    color: white;
+}
+
+
+:host::ng-deep{
+    .p-menubar{
+        .p-submenu-list{
+            z-index: 1000;
+            background: var(--primary-color);
+        }
+        .p-menuitem.p-highlight{
+            .p-menuitem-content{
+                background: var(--primary-color);
+            }
+            .p-menuitem-content:hover{
+                background: 00#1D4ED8;
+            }
+        }
+        .p-menuitem-content:hover{
+            background: 00#1D4ED8;
+        }
+        .p-menuitem{
+            .p-menuitem-link{
+                .p-menuitem-text{
+                    color: white;
+                }
+            }
+        }
+        
+    }
+}

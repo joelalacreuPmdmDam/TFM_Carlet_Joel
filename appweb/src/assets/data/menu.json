@@ -1,0 +1,40 @@
+[
+    
+    {
+        "label": "Tablon de actividades",
+        "icon": "",
+        "routerLink": "/tablon-actividades"
+    },
+    {
+        "label": "Reservas",
+        "icon": "",
+        "routerLink": "/reservas"
+    },
+    {
+        "label": "Actividades",
+        "icon": "",
+        "routerLink": "/actividades"
+    },
+    {
+        "label": "Usuarios",
+        "icon": "",
+        "items": [
+            
+            {
+                "label": "Clientes",
+                "icon": "",
+                "routerLink": "/usuarios/clientes"
+            },
+            {
+                "label": "Empleados",
+                "icon": "",
+                "routerLink": "/usuarios/empleados"
+            },
+            {
+                "label": "Instructores",
+                "icon": "",
+                "routerLink": "/usuarios/instructores"
+            }
+        ]
+    }
+]

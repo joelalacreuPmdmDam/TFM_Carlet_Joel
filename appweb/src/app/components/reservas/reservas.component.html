@@ -1,0 +1,100 @@
+<div class="loading-container" *ngIf="loadingInfo">
+    <div class="loading">
+        <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+    </div>
+</div>
+<div *ngIf="!loadingInfo" class="container">
+    <div class="second_nav">
+        <p-toolbar [style]="{'background-color': '#f5f5f5', 'margin-bottom': '5px'}">
+            <p style="font-weight: bold;font-size: 14px; margin: 0px;">RESERVAS</p>
+        </p-toolbar>
+    </div>
+    <p-table 
+    #dt1
+    [value]="listaReservas" 
+    dataKey="id" 
+    editMode="row" 
+    [tableStyle]="{'min-width': '50rem'}"
+    [showCurrentPageReport]="true"
+    [rows]="25"
+    [paginator]="true"
+    [rowsPerPageOptions]="[25, 50, 75, 100]"
+    [loading]="false"
+    [scrollable]="true"
+    scrollHeight="600px"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['idReserva','cliente','actividad','fecha']"
+    >
+    
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pTooltip="Limpiar y recargar" tooltipPosition="bottom" pButton class="p-button-outlined" icon="pi pi-sync" (click)="clear(dt1)"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input #inputSearch [(ngModel)]="valorFiltroGlobal" pInputText type="text" (input)="onInput($event)" placeholder="Search keyword" />
+                </span>                
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 10%"></th>
+                <th style="width: 22.5%" pSortableColumn="id">
+                    ID
+                    <p-sortIcon field="id"></p-sortIcon>
+                </th>
+                <th style="width: 22.5%" pSortableColumn="cliente">
+                    CLIENTE
+                    <p-sortIcon field="cliente"></p-sortIcon>
+                </th>
+                <th style="width: 22.5%" pSortableColumn="actividad">
+                    ACTIVIDAD
+                    <p-sortIcon field="actividad"></p-sortIcon>
+                </th>
+                <th style="width: 22.5%" pSortableColumn="fecha">
+                    FECHA
+                    <p-sortIcon field="fecha"></p-sortIcon>
+                </th>         
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reserva>
+            <tr>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEditDialog(reserva)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteReservaDialog(reserva)" ></button>
+                </td>
+                <td>
+                    {{ reserva.idReserva }}
+                </td>
+                <td>
+                    {{ reserva.cliente }}
+                </td>
+                <td>
+                    {{ reserva.actividad }}
+                </td>
+                <td>
+                    {{ reserva.fecha | date: 'dd/MM/yyyy HH:mm:ss' }}
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No hay reservas para mostrar.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+<p-dialog header="Editar reserva" [(visible)]="showEditarReservaDialog" [modal]="true" [style]="{ width: '19.8vw', height: '11vw' }" [draggable]="true" [resizable]="false">
+        <div class="grid p-fluid formConainer" style="margin-top: 1.5rem; display: flex;">
+            <p-floatLabel>
+                <p-dropdown [options]="listaClientes" [(ngModel)]="selectedClienteReserva" optionLabel="infoCliente" inputId="float-label" [style]="{'width':'350px','margin-right':'1rem'}" appendTo="body"/>
+                <label for="username">Cliente</label>
+            </p-floatLabel>    
+            <button type="submit" pButton pRipple label="Añadir" icon="pi pi-plus" class="p-button-success formBtn" (click)="actualizarReserva()" style="margin-top: 2rem;"></button>          
+        </div>
+</p-dialog>
+<p-confirmDialog [style]="{ width: 'auto' }"></p-confirmDialog>
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}" [style]="{'margin-top':'11rem'}" position="top-center"></p-toast>

@@ -1,0 +1,78 @@
+<div class="loading-container" *ngIf="loadingInfo">
+    <div class="loading">
+        <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+    </div>
+</div>
+<div  class="container" *ngIf="!loadingInfo "><!--&& listaPermisos.consultar-->
+    <div class="second_nav">
+        <p-toolbar [style]="{'background-color': '#f5f5f5', 'margin-bottom': '5px'}">
+            <p style="font-weight: bold;font-size: 14px; margin: 0px;">USUARIOS - INSTRUCTORES</p>
+        </p-toolbar>
+    </div>
+    <div style="display: flex; justify-content: space-between;">
+        <div style="flex: 1;">
+            <p-table
+            [scrollable]="true"
+            scrollHeight="530px"
+            class="usuarios"
+            [value]="listaInstructores"
+            selectionMode="single" 
+            [(selection)]="selectedRow"
+            dataKey="modulo"
+            (onRowSelect)="buscarActividadesInstructor()"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>DNI</th>
+                        <th>Nombre</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-instructor>
+                    <tr [pSelectableRow]="instructor" [ngClass]="{'fila-gris': !instructor.actividades}">
+                        <td>{{ instructor.dni }}</td>
+                        <td>{{ instructor.nombre }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div style="flex: 1; margin-left: 3rem;">
+            <p-pickList
+              [source]="sourceActividades"
+              [target]="targetActividades"
+              sourceHeader="Actividades"
+              sourceFilterPlaceholder="Search by name" 
+              targetFilterPlaceholder="Search by name" 
+              filterBy="rol"
+              targetHeader="{{ cabeceraTargetActividades }}"
+              [dragdrop]="true"
+              [responsive]="true"
+              [showSourceControls]="false"
+              [showTargetControls]="false"
+              [sourceStyle]="{ height: '30rem' }"
+              [targetStyle]="{ height: '30rem' }"
+              breakpoint="1400px"
+            >
+              <ng-template let-actividad pTemplate="item">
+                <div class="flex flex-wrap p-2 align-items-center gap-3">
+                  <div class="flex-1 flex flex-column gap-2">
+                    <span class="font-bold">{{ actividad.actividad }}</span>
+                  </div>
+                </div>
+              </ng-template>
+            </p-pickList>
+        </div>
+    </div>
+    <div style="display: flex;" *ngIf="!loadingInfo "><!--&& listaPermisos.actualizar-->
+        <button type="button" pButton pRipple label="Descartar cambios" icon="pi pi-trash" class="p-button-secondary bntAnyadir" style="margin: 10px;margin-top: 27px;width: 50%;" (click)="descartarCambios()"></button>
+        <button type="submit" [disabled]="selectedEmpleado === undefined" pButton pRipple label="Guardar" icon="pi pi-save" class="p-button-success bntAnyadir" style="margin: 10px;margin-top: 27px;width: 50%;" (click)="guardarCambios()"></button>
+    </div>
+</div>
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}" [style]="{'margin-top':'6.5rem'}" position="top-center"></p-toast>
+<!--
+<div class="mensajeNoPermisos" *ngIf="!loadingInfo && !listaPermisos.consultar">
+    <p style="color: #FF0000;font-size: 30px;font-weight: bold;">No tienes permisos</p>
+</div>
+-->
+
+
+

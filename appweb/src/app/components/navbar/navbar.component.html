@@ -1,0 +1,13 @@
+<p-toolbar [style]="{'background-color': 'var(--primary-color)'}">
+    <ng-template pTemplate="start">
+        <p [routerLink]="['/inicio']" routerLinkActive="router-link-active" style="cursor: pointer;">RONCAFIT</p>
+    </ng-template>
+    <ng-template pTemplate="center">
+        <p-menubar [model]="menu" [style]="{'background-color':'var(--primary-color)', 'border':'none','font-weight':'bold','color':'white'}"></p-menubar>
+    </ng-template>
+    <ng-template pTemplate="end">
+        <!--<p-menubar [model]="menuSeguridad" [style]="{'background-color':'var(--primary-color)', 'border':'none','font-weight':'bold','color':'white'}"></p-menubar>-->
+        <p style="font-size: 13px;">{{ currentUser }}</p>
+        <p-button icon="pi pi-sign-out" (click)="logOut()" label="Logout"></p-button>
+    </ng-template>
+</p-toolbar>

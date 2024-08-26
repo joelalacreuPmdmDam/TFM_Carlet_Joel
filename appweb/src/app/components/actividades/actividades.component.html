@@ -1,0 +1,145 @@
+<div class="loading-container" *ngIf="loadingInfo">
+    <div class="loading">
+        <i class="pi pi-spin pi-spinner" style="font-size: 4rem"></i>
+    </div>
+</div>
+<div *ngIf="!loadingInfo" class="container">
+    <div class="second_nav">
+        <p-toolbar [style]="{'background-color': '#f5f5f5', 'margin-bottom': '5px'}">
+            <p style="font-weight: bold;font-size: 14px; margin: 0px;">ACTIVIDADES</p>
+            <ng-template pTemplate="end">
+                <p-button label="Añadir actividad" (click)="openCrearActividadDialog()"></p-button> <!--*ngIf="listaPermisos.insertar"-->
+            </ng-template>
+        </p-toolbar>
+    </div>
+    <p-table 
+    #dt1
+    [value]="listaActividades" 
+    dataKey="id" 
+    editMode="row" 
+    [tableStyle]="{'min-width': '50rem'}"
+    [showCurrentPageReport]="true"
+    [rows]="25"
+    [paginator]="true"
+    [rowsPerPageOptions]="[25, 50, 75, 100]"
+    [loading]="false"
+    [scrollable]="true"
+    scrollHeight="600px"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['idActividad','actividad','limite']"
+    >
+    
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pTooltip="Limpiar y recargar" tooltipPosition="bottom" pButton class="p-button-outlined" icon="pi pi-sync" (click)="clear(dt1)"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input #inputSearch [(ngModel)]="valorFiltroGlobal" pInputText type="text" (input)="onInput($event)" placeholder="Search keyword" />
+                </span>                
+            </div>
+        </ng-template>
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 5%"></th>
+                <th style="width: 10%" pSortableColumn="idActividad">
+                    ID
+                    <p-sortIcon field="idActividad"></p-sortIcon>
+                </th>
+                <th style="width: 12%" pSortableColumn="actividad">
+                    ACTIVIDAD
+                    <p-sortIcon field="actividad"></p-sortIcon>
+                </th>
+                <th style="width: 12%" pSortableColumn="limite">
+                    LÍMITE
+                    <p-sortIcon field="limite"></p-sortIcon>
+                </th>               
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-actividad>
+            <tr>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="openEditDialog(actividad)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteActividadDialog(actividad)" ></button>
+                </td>
+                <td>
+                    {{ actividad.idActividad }}
+                </td>
+                <td>
+                    {{ actividad.actividad }}
+                </td>
+                <td>
+                    {{ actividad.limite }}
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No hay actividades para mostrar.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog header="Nueva actividad" [(visible)]="showCrearActividadDialog" [modal]="true" [style]="{ width: '20vw', height: '15.5vw' }" [draggable]="true" [resizable]="false" (onHide)="closeCrearDialog()">
+    <form [formGroup]="formGroup" (ngSubmit)="crearActividad()">
+        <div class="p-fluid formContainer" style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center;">
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div style="width: 90%;">
+                    <p-floatLabel>
+                        <input pInputText id="actividad" formControlName="fbActividad" style="width: 100%;" />
+                        <label for="actividad">Actividad</label>
+                    </p-floatLabel>
+                </div>
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div style="width: 90%;">
+                    <p-floatLabel>
+                        <p-inputNumber formControlName="fbLimite" inputId="minmax" mode="decimal" [min]="0" [max]="30" /> 
+                        <label for="limite">Límite</label>
+                    </p-floatLabel>
+                </div>
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <div style="width: 90%; display: flex; justify-content: space-between;">
+                    <button type="reset" pButton pRipple label="Limpiar" icon="pi pi-delete-left" class="p-button-secondary" style="width: 48%;"></button>
+                    <button type="submit" pButton pRipple label="Añadir" icon="pi pi-plus" class="p-button-success" [disabled]="formGroup.invalid" style="width: 48%;"></button>
+                </div>
+            </div>
+            
+        </div>
+    </form>
+</p-dialog>
+
+
+<p-dialog header="Editar actividad" [(visible)]="showEditarActividadDialog" [modal]="true" [style]="{ width: '20vw', height: '16.5vw' }" [draggable]="true" [resizable]="false" (onHide)="closeEditDialog()">
+    <div class="p-fluid formContainer" style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="width: 100%;">
+            <p-floatLabel>
+                <input pInputText id="actividad" [(ngModel)]="actividadEditada.actividad" style="width: 100%;" />
+                <label for="actividad">Actividad</label>
+            </p-floatLabel>
+        </div>
+        <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div style="display: flex; align-items: center;">
+                <p-checkbox [(ngModel)]="habilitarLimiteEdit" [binary]="true" inputId="binary" [style]="{'margin-right': '0.5rem'}" />
+                <label for="binary">Habilitar Límite</label>
+            </div>
+            <div style="flex: 1; margin-left: 1rem;">
+                <p-floatLabel>
+                    <input pInputText id="limite" [(ngModel)]="actividadEditada.limite" [disabled]="!habilitarLimiteEdit" style="width: 100%;" />
+                    <label for="limite">Límite</label>
+                </p-floatLabel>
+            </div>
+        </div>
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <button type="submit" pButton pRipple label="Guardar cambios" icon="pi pi-plus" class="p-button-success" (click)="actualizarActividad()"></button>
+        </div>
+        
+    </div>
+</p-dialog>
+
+
+<p-confirmDialog [style]="{ width: 'auto' }"></p-confirmDialog>
+<p-toast [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}" [style]="{'margin-top':'11rem'}" position="top-center"></p-toast>
